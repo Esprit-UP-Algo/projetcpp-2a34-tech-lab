@@ -1,0 +1,79 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-39ac2aa898569a135c60.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "interfacefinale",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "interfacefinale::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-interfacefinale-Debug-7da93953bd119678634b.json",
+					"name" : "interfacefinale",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "interfacefinale_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-interfacefinale_autogen-Debug-77951781e19917472753.json",
+					"name" : "interfacefinale_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "interfacefinale_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-interfacefinale_autogen_timestamp_deps-Debug-85b36e7981cbd96fde2b.json",
+					"name" : "interfacefinale_autogen_timestamp_deps",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/Shari1/Documents/interfacefinale/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug",
+		"source" : "C:/Users/Shari1/Documents/interfacefinale"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}
