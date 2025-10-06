@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>style.qss</file>
+    </qresource>
+    <qresource prefix="/images">
+        <file>icons/employees.png</file>
+        <file>icons/fidelite.png</file>
+        <file>icons/fournitures-scolaires.png</file>
+        <file>icons/lanalyse-des-donnees.png</file>
+        <file>icons/logo.png</file>
+        <file>icons/pdf.png</file>
+        <file>icons/sortie.png</file>
+        <file>icons/supprimer.png</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,36 @@
+QMainWindow, QDialog, QWidget {
+    background-color: rgb(236, 248, 246);
+}
+/*les boutons*/
+QStackedWidget QPushButton {
+    background-color: #E6A537;
+    color: rgb(255, 255, 255);
+}
+
+QStackedWidget QPushButton:hover {
+    background-color: #4A6FE3;
+}
+
+QStackedWidget QPushButton[objectName="annuler_equipement_bn"],QPushButton[objectName="annuler_adherent_btn"],QPushButton[objectName="annuler_formateur_bn"],QPushButton[objectName="annuler_atelier_btn"]
+QPushButton[objectName="supprimer_equipement_bn"],QPushButton[objectName="supprimer_adherent_btn"],QPushButton[objectName="supprimer_formateur_bn"],QPushButton[objectName="supprimer_atelier_btn"]
+ {
+    background-color: #7faa79;
+    color: rgb(255, 255, 255);
+}
+
+QStackedWidget QPushButton[objectName="annuler_employee_bin"]:hover,
+QStackedWidget QPushButton[objectName="pushButton_21"]:hover {
+    background-color: #c0392b;  /* Rouge foncé */
+}
+
+QStackedWidget QGroupBox{
+    background-color: rgb(127, 170, 121);
+}
+
+QStackedWidget QTableWidget{
+    background-color: rgb(255, 251, 233);
+}
+QStackedWidget QComboBox{
+    background-color: rgb(127, 170, 121);
+    color: rgb(255, 255, 255);
+}
