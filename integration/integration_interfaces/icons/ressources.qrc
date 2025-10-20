@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>employees.png</file>
+        <file>fidelite.png</file>
+        <file>fournitures-scolaires.png</file>
+        <file>lanalyse-des-donnees.png</file>
+        <file>pdf.png</file>
+        <file>ressources.qrc</file>
+        <file>sortie.png</file>
+    </qresource>
+</RCC>
