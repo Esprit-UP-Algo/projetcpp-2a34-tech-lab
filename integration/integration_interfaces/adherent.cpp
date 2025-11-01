@@ -1,128 +1,159 @@
 #include "adherent.h"
-#include <QSqlQuery>
+#include "connection.h"
 #include <QSqlError>
+#include <qsqlquery.h>
 #include <QDebug>
 
-// Constructeurs
 Adherent::Adherent()
-    : id_adherent(0), nom(""), prenom(""), date_naissance(""), email(""), telephone(""), adresse("")
-{}
+    : id(0), nom(""), prenom(""), daten(QDate::currentDate()),
+    email(""), tel(""), adr("") {}
 
-Adherent::Adherent(int id, QString n, QString p, QString dn, QString e, QString t, QString a)
-    : id_adherent(id), nom(n), prenom(p), date_naissance(dn), email(e), telephone(t), adresse(a)
-{}
-
-// Getters
-int Adherent::getId() const { return id_adherent; }
+Adherent::Adherent(int id, QString nom, QString prenom, QDate daten,
+                   QString email, QString tel, QString adr)
+{
+    setId(id);
+    setNom(nom);
+    setPrenom(prenom);
+    setDateN(daten);
+    setEmail(email);
+    setTel(tel);
+    setAdr(adr);
+}
+int Adherent::getId() const { return id; }
 QString Adherent::getNom() const { return nom; }
 QString Adherent::getPrenom() const { return prenom; }
-QString Adherent::getDateNaissance() const { return date_naissance; }
+QDate Adherent::getDateN() const { return daten; }
 QString Adherent::getEmail() const { return email; }
-QString Adherent::getTelephone() const { return telephone; }
-QString Adherent::getAdresse() const { return adresse; }
+QString Adherent::getTel() const { return tel; }
+QString Adherent::getAdr() const { return adr; }
 
-// Setters
-void Adherent::setId(int id) { id_adherent = id; }
-void Adherent::setNom(QString n) { nom = n; }
-void Adherent::setPrenom(QString p) { prenom = p; }
-void Adherent::setDateNaissance(QString dn) { date_naissance = dn; }
-void Adherent::setEmail(QString e) { email = e; }
-void Adherent::setTelephone(QString t) { telephone = t; }
-void Adherent::setAdresse(QString a) { adresse = a; }
+bool Adherent::setId(int id)
+{
+    if (id > 0) { this->id = id; return true; }
+    return false;
+}
 
-// CRUD - AJOUTER
+bool Adherent::setNom(QString nom)
+{
+    if (!nom.isEmpty()) { this->nom = nom; return true; }
+    return false;
+}
+
+bool Adherent::setPrenom(QString prenom)
+{
+    if (!prenom.isEmpty()) { this->prenom = prenom; return true; }
+    return false;
+}
+
+bool Adherent::setDateN(QDate daten)
+{
+    if (daten.isValid() && daten <= QDate::currentDate()) {
+        this->daten = daten;
+        return true;
+    }
+    return false;
+}
+
+
+bool Adherent::setEmail(QString email)
+{
+    if (emailValide(email)) {
+        this->email = email;
+        return true;
+    }
+    return false;
+}
+
+bool Adherent::setTel(QString tel)
+{
+    if (telValide(tel)) {
+        this->tel = tel;
+        return true;
+    }
+    return false;
+}
+
+void Adherent::setAdr(QString adr)
+{
+    this->adr = adr;
+}
+bool Adherent::emailValide(const QString &email)
+{
+    QString trimmed = email.trimmed();
+    static const QRegularExpression regex(
+        "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
+        );
+    return regex.match(trimmed).hasMatch();
+}
+bool Adherent::telValide(const QString &tel)
+{
+    static const QRegularExpression regex("^\\d{8,12}$"); // 8 à 12 chiffres
+    return regex.match(tel).hasMatch();
+};
 bool Adherent::ajouter()
 {
     QSqlQuery query;
-
-    query.prepare("INSERT INTO ADHERENTS (ID, NOM, PRENOM, DATEN_ADH, TEL_ADH, ADDRESSE_ADH, EMAIL) "
-                  "VALUES (:id, :nom, :prenom, :date_naissance, :telephone, :adresse, :email)");
-
-    query.bindValue(":id", id_adherent);
+    query.prepare("INSERT INTO ADHERENTS (ID, NOM, PRENOM, DATEN, EMAIL, TEL, ADR) "
+                  "VALUES (:id, :nom, :prenom, :datenaissance, :email, :telephone, :adresse)");
+    query.bindValue(":id", id);
     query.bindValue(":nom", nom);
     query.bindValue(":prenom", prenom);
-    query.bindValue(":date_naissance", date_naissance);
-    query.bindValue(":telephone", telephone);
-    query.bindValue(":adresse", adresse);
+    query.bindValue(":datenaissance", daten);
     query.bindValue(":email", email);
+    query.bindValue(":telephone", tel);
+    query.bindValue(":adresse", adr);
 
-    qDebug() << "Tentative d'ajout - ID:" << id_adherent << "Nom:" << nom << "Prénom:" << prenom;
-
-    if (query.exec()) {
-        qDebug() << "✅ Ajout réussi dans ADHERENTS!";
-        return true;
-    } else {
-        qDebug() << "❌ Erreur SQL:" << query.lastError().text();
+    if (!query.exec()) {
+        qDebug() << "Erreur ajout :" << query.lastError().text();
         return false;
     }
+    return true;
 }
 
-// CRUD - AFFICHER
+bool Adherent::modifier()
+{
+    QSqlQuery query;
+    query.prepare("UPDATE ADHERENTS SET NOM=:nom, PRENOM=:prenom, DATEN=:daten, "
+                  "EMAIL=:email, TEL=:tel, ADR=:adr WHERE ID=:id");
+    query.bindValue(":id", id);
+    query.bindValue(":nom", nom);
+    query.bindValue(":prenom", prenom);
+    query.bindValue(":daten", daten);
+    query.bindValue(":email", email);
+    query.bindValue(":tel", tel);
+    query.bindValue(":adr", adr);
+
+    if (!query.exec()) {
+        qDebug() << "Erreur modification :" << query.lastError().text();
+        return false;
+    }
+    return true;
+}
 QSqlQueryModel* Adherent::afficher()
 {
-    QSqlQueryModel* model = new QSqlQueryModel();
-
-    model->setQuery("SELECT ID, NOM, PRENOM, DATEN_ADH, TEL_ADH, ADDRESSE_ADH, EMAIL FROM ADHERENTS");
-
-    if (model->lastError().isValid()) {
-        qDebug() << "❌ Erreur affichage:" << model->lastError().text();
-    } else {
-        qDebug() << "✅ Affichage réussi, lignes:" << model->rowCount();
-    }
-
+    QSqlQueryModel *model = new QSqlQueryModel();
+    model->setQuery("SELECT ID, NOM, PRENOM, DATEN, EMAIL, TEL, ADR FROM ADHERENTS ORDER BY ID ASC");
     model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
     model->setHeaderData(1, Qt::Horizontal, QObject::tr("Nom"));
     model->setHeaderData(2, Qt::Horizontal, QObject::tr("Prénom"));
-    model->setHeaderData(3, Qt::Horizontal, QObject::tr("Date de naissance"));
-    model->setHeaderData(4, Qt::Horizontal, QObject::tr("Téléphone"));
-    model->setHeaderData(5, Qt::Horizontal, QObject::tr("Adresse"));
-    model->setHeaderData(6, Qt::Horizontal, QObject::tr("Email"));
-
+    model->setHeaderData(3, Qt::Horizontal, QObject::tr("Date Naissance"));
+    model->setHeaderData(4, Qt::Horizontal, QObject::tr("Email"));
+    model->setHeaderData(5, Qt::Horizontal, QObject::tr("Téléphone"));
+    model->setHeaderData(6, Qt::Horizontal, QObject::tr("Adresse"));
     return model;
 }
 
-// CRUD - MODIFIER
-bool Adherent::modifier(int id)
-{
-    QSqlQuery query;
-
-    query.prepare("UPDATE ADHERENTS SET NOM=:nom, PRENOM=:prenom, DATEN_ADH=:date_naissance, "
-                  "TEL_ADH=:telephone, ADDRESSE_ADH=:adresse, EMAIL=:email WHERE ID=:id");
-
-    query.bindValue(":id", id);
-    query.bindValue(":nom", nom);
-    query.bindValue(":prenom", prenom);
-    query.bindValue(":date_naissance", date_naissance);
-    query.bindValue(":telephone", telephone);
-    query.bindValue(":adresse", adresse);
-    query.bindValue(":email", email);
-
-    qDebug() << "Tentative modification - ID:" << id;
-
-    if (query.exec()) {
-        qDebug() << "✅ Modification réussie!";
-        return true;
-    } else {
-        qDebug() << "❌ Erreur modification:" << query.lastError().text();
-        return false;
-    }
-}
-
-// CRUD - SUPPRIMER
 bool Adherent::supprimer(int id)
 {
     QSqlQuery query;
-
-    query.prepare("DELETE FROM ADHERENTS WHERE ID=:id");
+    query.prepare("DELETE FROM ADHERENTS WHERE ID = :id");
     query.bindValue(":id", id);
 
-    qDebug() << "Tentative suppression - ID:" << id;
-
-    if (query.exec()) {
-        qDebug() << "✅ Suppression réussie!";
-        return true;
-    } else {
-        qDebug() << "❌ Erreur suppression:" << query.lastError().text();
+    if (!query.exec()) {
+        qDebug() << "Erreur suppression :" << query.lastError().text();
         return false;
     }
+    return true;
 }
+
+

@@ -1,44 +1,53 @@
-#ifndef ADHERENT_H
+    #ifndef ADHERENT_H
 #define ADHERENT_H
 
 #include <QString>
+#include <QDate>
+#include <QSqlQuery>
 #include <QSqlQueryModel>
+#include <QRegularExpression>
 
 class Adherent
 {
 private:
-    int id_adherent;
+    int id;
     QString nom;
     QString prenom;
-    QString date_naissance;
+    QDate daten;
     QString email;
-    QString telephone;
-    QString adresse;
+    QString tel;
+    QString adr;
 
 public:
-
     Adherent();
-    Adherent(int, QString, QString, QString, QString, QString, QString);
+    Adherent(int id, QString nom, QString prenom, QDate daten,
+             QString email, QString tel, QString adr);
+
     int getId() const;
     QString getNom() const;
     QString getPrenom() const;
-    QString getDateNaissance() const;
+    QDate getDateN() const;
     QString getEmail() const;
-    QString getTelephone() const;
-    QString getAdresse() const;
+    QString getTel() const;
+    QString getAdr() const;
 
-    void setId(int);
-    void setNom(QString);
-    void setPrenom(QString);
-    void setDateNaissance(QString);
-    void setEmail(QString);
-    void setTelephone(QString);
-    void setAdresse(QString);
+
+    bool setId(int id);
+    bool setNom(QString nom);
+    bool setPrenom(QString prenom);
+    bool setDateN(QDate daten);
+    bool setEmail(QString email);
+    bool setTel(QString tel);
+    void setAdr(QString adr);
+
+    static bool emailValide(const QString &email);
+    static bool telValide(const QString &tel);
+
 
     bool ajouter();
     QSqlQueryModel* afficher();
-    bool modifier(int);
-    bool supprimer(int);
+    bool supprimer(int id);
+    bool modifier();
 };
 
 #endif // ADHERENT_H
