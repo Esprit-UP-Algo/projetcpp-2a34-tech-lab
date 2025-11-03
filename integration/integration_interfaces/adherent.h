@@ -1,4 +1,4 @@
-    #ifndef ADHERENT_H
+#ifndef ADHERENT_H
 #define ADHERENT_H
 
 #include <QString>
@@ -30,7 +30,6 @@ public:
     QString getEmail() const;
     QString getTel() const;
     QString getAdr() const;
-
 
     bool setId(int id);
     bool setNom(QString nom);

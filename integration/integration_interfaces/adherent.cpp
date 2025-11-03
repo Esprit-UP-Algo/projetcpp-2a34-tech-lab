@@ -1,5 +1,4 @@
 #include "adherent.h"
-#include "connection.h"
 #include <QSqlError>
 #include <qsqlquery.h>
 #include <QDebug>
