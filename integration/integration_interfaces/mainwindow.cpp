@@ -18,6 +18,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
 void MainWindow::on_ajouter_adherent_btn_clicked()
 {
     int id = ui->id_adherent->text().toInt();

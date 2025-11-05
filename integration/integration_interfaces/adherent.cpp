@@ -10,14 +10,15 @@ Adherent::Adherent()
 Adherent::Adherent(int id, QString nom, QString prenom, QDate daten,
                    QString email, QString tel, QString adr)
 {
-    setId(id);
-    setNom(nom);
-    setPrenom(prenom);
-    setDateN(daten);
-    setEmail(email);
-    setTel(tel);
-    setAdr(adr);
+    this->id = id;
+    this->nom = nom;
+    this->prenom = prenom;
+    this->daten = daten;
+    this->email = email;
+    this->tel = tel;
+    this->adr = adr;
 }
+
 int Adherent::getId() const { return id; }
 QString Adherent::getNom() const { return nom; }
 QString Adherent::getPrenom() const { return prenom; }
@@ -34,12 +35,14 @@ bool Adherent::setId(int id)
 
 bool Adherent::setNom(QString nom)
 {
+    nom = nom.trimmed();
     if (!nom.isEmpty()) { this->nom = nom; return true; }
     return false;
 }
 
 bool Adherent::setPrenom(QString prenom)
 {
+    prenom = prenom.trimmed();
     if (!prenom.isEmpty()) { this->prenom = prenom; return true; }
     return false;
 }
@@ -52,10 +55,25 @@ bool Adherent::setDateN(QDate daten)
     }
     return false;
 }
+//controle de saisi
+bool Adherent::emailValide(const QString &email)
+{
+    const QString trimmed = email.trimmed();
+    static const QRegularExpression regex(
+        "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
+        );
+    return regex.match(trimmed).hasMatch();
+}
 
+bool Adherent::telValide(const QString &tel)
+{
+    static const QRegularExpression regex("^[259]\\d{7}$");
+    return regex.match(tel.trimmed()).hasMatch();
+}
 
 bool Adherent::setEmail(QString email)
 {
+    email = email.trimmed();
     if (emailValide(email)) {
         this->email = email;
         return true;
@@ -65,6 +83,7 @@ bool Adherent::setEmail(QString email)
 
 bool Adherent::setTel(QString tel)
 {
+    tel = tel.trimmed();
     if (telValide(tel)) {
         this->tel = tel;
         return true;
@@ -76,21 +95,28 @@ void Adherent::setAdr(QString adr)
 {
     this->adr = adr;
 }
-bool Adherent::emailValide(const QString &email)
+
+bool Adherent::idExiste(int id)
 {
-    QString trimmed = email.trimmed();
-    static const QRegularExpression regex(
-        "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
-        );
-    return regex.match(trimmed).hasMatch();
+    QSqlQuery q;
+    q.prepare("SELECT COUNT(1) FROM ADHERENTS WHERE ID = :id");
+    q.bindValue(":id", id);
+    if (!q.exec()) {
+        qDebug() << "Erreur idExiste :" << q.lastError().text();
+        return false;
+    }
+    if (q.next()) return q.value(0).toInt() > 0;
+    return false;
 }
-bool Adherent::telValide(const QString &tel)
-{
-    static const QRegularExpression regex("^\\d{8,12}$"); // 8 à 12 chiffres
-    return regex.match(tel).hasMatch();
-};
+
+
 bool Adherent::ajouter()
 {
+    if (idExiste(id)) {
+        qDebug() << "Erreur ajout : ID déjà utilisé.";
+        return false;
+    }
+
     QSqlQuery query;
     query.prepare("INSERT INTO ADHERENTS (ID, NOM, PRENOM, DATEN, EMAIL, TEL, ADR) "
                   "VALUES (:id, :nom, :prenom, :datenaissance, :email, :telephone, :adresse)");
@@ -128,6 +154,7 @@ bool Adherent::modifier()
     }
     return true;
 }
+
 QSqlQueryModel* Adherent::afficher()
 {
     QSqlQueryModel *model = new QSqlQueryModel();
@@ -154,5 +181,3 @@ bool Adherent::supprimer(int id)
     }
     return true;
 }
-
-

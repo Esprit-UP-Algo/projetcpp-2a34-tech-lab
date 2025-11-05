@@ -41,12 +41,13 @@ public:
 
     static bool emailValide(const QString &email);
     static bool telValide(const QString &tel);
-
+//controle de la unicite
+    static bool idExiste(int id);
 
     bool ajouter();
     QSqlQueryModel* afficher();
     bool supprimer(int id);
-    bool modifier();
+   bool modifier();
 };
 
 #endif // ADHERENT_H
