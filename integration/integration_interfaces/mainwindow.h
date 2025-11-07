@@ -21,17 +21,13 @@ public:
 private slots:
     void on_ajouter_adherent_btn_clicked();
     void on_modifier_adherent_btn_clicked();
-   /* void on_supprimer_adherent_btn_clicked();
-    void on_employe_btn_clicked();
-    void on_adherents_btn_clicked();
-    void on_formateurs_btn_clicked();
-    void on_ateliers_btn_clicked();
-    void on_equipement_btn_clicked();
-*/
+    void on_supprimer_adherent_btn_clicked();
+
 private:
     Ui::MainWindow *ui;
     Adherent A;
 
+    QString getSexeFromRadioButtons();
 };
 
 #endif // MAINWINDOW_H

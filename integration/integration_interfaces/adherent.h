@@ -17,11 +17,12 @@ private:
     QString email;
     QString tel;
     QString adr;
+    QString sexe;
 
 public:
     Adherent();
     Adherent(int id, QString nom, QString prenom, QDate daten,
-             QString email, QString tel, QString adr);
+             QString email, QString tel, QString adr, QString sexe);
 
     int getId() const;
     QString getNom() const;
@@ -30,6 +31,7 @@ public:
     QString getEmail() const;
     QString getTel() const;
     QString getAdr() const;
+    QString getSexe() const;
 
     bool setId(int id);
     bool setNom(QString nom);
@@ -38,11 +40,12 @@ public:
     bool setEmail(QString email);
     bool setTel(QString tel);
     void setAdr(QString adr);
+    void setSexe(QString sexe);
 
     static bool emailValide(const QString &email);
     static bool telValide(const QString &tel);
-//controle de la unicite
     static bool idExiste(int id);
+    static bool idLen(int id);
 
     bool ajouter();
     QSqlQueryModel* afficher();

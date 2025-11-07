@@ -1,5 +1,6 @@
 #include "connection.h"
 #include <QSqlDatabase>
+
 Connection* Connection::p_instance = nullptr;
 Connection::Connection()
 {
@@ -31,3 +32,4 @@ Connection::~Connection()
         db.close();
     }
 }
+

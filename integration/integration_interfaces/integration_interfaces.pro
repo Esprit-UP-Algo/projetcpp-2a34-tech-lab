@@ -28,5 +28,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     ressource.qrc
 
-RESOURCES += \
-    style.qss
+RESOURCES +=
