@@ -49,6 +49,8 @@ public:
 
     bool ajouter();
     QSqlQueryModel* afficher();
+    QSqlQueryModel* trier(const QString &critere, const QString &ordre );
+    QSqlQueryModel* rechercher(const QString &critere, const QString &valeur);
     bool supprimer(int id);
    bool modifier();
 };

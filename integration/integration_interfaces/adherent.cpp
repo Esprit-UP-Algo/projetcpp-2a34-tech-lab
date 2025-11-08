@@ -212,3 +212,79 @@ bool Adherent::supprimer(int id)
     }
     return true;
 }
+//les metiers
+//rech
+QSqlQueryModel* Adherent::rechercher(const QString &critere, const QString &valeur)
+{
+    QSqlQueryModel *model = new QSqlQueryModel();
+
+    QString whereClause;
+    QString searchValue = valeur.trimmed();
+
+    // Déterminer la clause WHERE selon le critère
+    if (critere == "ID") {
+        whereClause = "ID = " + searchValue;
+    } else if (critere == "Téléphone") {
+        whereClause = "TEL_ADH LIKE '%" + searchValue + "%'";
+    } else if (critere == "Adresse") {
+        whereClause = "UPPER(ADRESSE_ADH) LIKE UPPER('%" + searchValue + "%')";
+    } else {
+        whereClause = "ID = " + searchValue;
+    }
+
+    // Construction de la requête SQL
+    QString queryStr = "SELECT TO_CHAR(ID) AS ID, NOM, PRENOM, DATE_NAISS, EMAIL, TEL_ADH, ADRESSE_ADH, SEXE FROM ADHERENTS WHERE " + whereClause + " ORDER BY ID ASC";
+
+    qDebug() << "Requête de recherche:" << queryStr;
+    model->setQuery(queryStr);
+    if (model->lastError().isValid()) {
+        qDebug() << "Erreur lors de la recherche:" << model->lastError().text();
+        return model;
+    }
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
+    model->setHeaderData(1, Qt::Horizontal, QObject::tr("Nom"));
+    model->setHeaderData(2, Qt::Horizontal, QObject::tr("Prénom"));
+    model->setHeaderData(3, Qt::Horizontal, QObject::tr("Date Naissance"));
+    model->setHeaderData(4, Qt::Horizontal, QObject::tr("Email"));
+    model->setHeaderData(5, Qt::Horizontal, QObject::tr("Téléphone"));
+    model->setHeaderData(6, Qt::Horizontal, QObject::tr("Adresse"));
+    model->setHeaderData(7, Qt::Horizontal, QObject::tr("Sexe"));
+
+    qDebug() << "Recherche réussie - Critère:" << critere << "Valeur:" << valeur << "Résultats:" << model->rowCount();
+
+    return model;
+}
+//tri
+QSqlQueryModel* Adherent::trier(const QString &critere, const QString &ordre)
+{
+    QSqlQueryModel *model = new QSqlQueryModel();
+    QString queryStr;
+    if (critere == "ID") {
+        queryStr = "SELECT TO_CHAR(ID) AS ID, NOM, PRENOM, DATE_NAISS, EMAIL, "
+                   "TEL_ADH, ADRESSE_ADH, SEXE FROM ADHERENTS ORDER BY ID " + ordre;
+    } else if (critere == "annee de naissance") {  // CORRIGÉ
+        queryStr = "SELECT TO_CHAR(ID) AS ID, NOM, PRENOM, DATE_NAISS, EMAIL, "
+                   "TEL_ADH, ADRESSE_ADH, SEXE FROM ADHERENTS ORDER BY DATE_NAISS " + ordre;
+    } else if (critere == "Email") {
+        queryStr = "SELECT TO_CHAR(ID) AS ID, NOM, PRENOM, DATE_NAISS, EMAIL, "
+                   "TEL_ADH, ADRESSE_ADH, SEXE, SUBSTR(EMAIL, 1, 1) AS PREMIERE_LETTRE FROM ADHERENTS ORDER BY PREMIERE_LETTRE " + ordre;
+    } else if (critere == "Télephone") {  // CORRIGÉ (avec accent aigu)
+        queryStr = "SELECT TO_CHAR(ID) AS ID, NOM, PRENOM, DATE_NAISS, EMAIL, "
+                   "TEL_ADH, ADRESSE_ADH, SEXE, SUBSTR(TEL_ADH, 1, 1) AS PREMIER_CHIFFRE FROM ADHERENTS ORDER BY PREMIER_CHIFFRE " + ordre;
+    } else if (critere == "Adresse") {
+        queryStr = "SELECT TO_CHAR(ID) AS ID, NOM, PRENOM, DATE_NAISS,"
+                   " EMAIL, TEL_ADH, ADRESSE_ADH, SEXE FROM ADHERENTS ORDER BY ADRESSE_ADH " + ordre;
+
+    } else {
+        queryStr = "SELECT TO_CHAR(ID) AS ID, NOM, PRENOM, DATE_NAISS, EMAIL, "
+                   "TEL_ADH, ADRESSE_ADH, SEXE FROM ADHERENTS ORDER BY ID ASC";
+    }
+    model->setQuery(queryStr);
+    if (model->lastError().isValid()) {
+        qDebug() << "ERREUR SQL dans trier():" << model->lastError().text();
+    } else {
+        qDebug() << "Requête exécutée avec succès";
+        qDebug() << "Nombre de résultats:" << model->rowCount();
+    }
+    return model;
+}

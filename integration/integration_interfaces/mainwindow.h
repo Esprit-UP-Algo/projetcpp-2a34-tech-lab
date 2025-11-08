@@ -22,6 +22,15 @@ private slots:
     void on_ajouter_adherent_btn_clicked();
     void on_modifier_adherent_btn_clicked();
     void on_supprimer_adherent_btn_clicked();
+    void on_rech_btn_clicked();
+    void on_tri_up_clicked();
+    void on_tri_down_clicked();
+
+    //void on_trier_btn_clicked();
+
+    void on_raffraichir_adherent_btn_clicked();
+
+    void on_pdf_adherent_btn_clicked();
 
 private:
     Ui::MainWindow *ui;

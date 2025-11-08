@@ -4,19 +4,21 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QSqlError>
-
+#include <QTextDocument>
+#include <QTextCursor>
+#include <QPrinter>
+#include <QFileDialog>
+#include <QDate>
+#include <QColor>
+#include <QSqlQueryModel>
+#include <QTextTable>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    try {
-        QSqlQueryModel* model = A.afficher();
-        ui->tableView->setModel(model);
-        qDebug() << "Données chargées avec succès";
-    } catch (...) {
-        qDebug() << "Erreur lors du chargement des données";
-    }
+    QSqlQueryModel* model = A.afficher();
+    ui->tableView->setModel(model);
 }
 QString MainWindow::getSexeFromRadioButtons() {
     if (ui->garcon->isChecked()) {
@@ -27,6 +29,7 @@ QString MainWindow::getSexeFromRadioButtons() {
     }
     return "";
 }
+//les crud
 void MainWindow::on_ajouter_adherent_btn_clicked()
 {
     qDebug() << "*****BOUTON AJOUTER CLIQUE *****";
@@ -181,7 +184,118 @@ void MainWindow::on_supprimer_adherent_btn_clicked()
         QMessageBox::critical(this, "Erreur", "Échec de la suppression !");
     }
 }
+//les metiers
+void MainWindow::on_rech_btn_clicked()
+{
+    QString critere = ui->comboBox_recherche->currentText();
+    QString valeur = ui->LineEdit_rech_adh->text().trimmed();
 
+    if (valeur.isEmpty()) {
+        QMessageBox::warning(this, "Erreur", "Veuillez saisir une valeur à rechercher");
+        return;
+    }
+
+    if (critere == "ID") {
+        bool ok;
+        int id = valeur.toInt(&ok);
+        if (!ok || id <= 0) {
+            QMessageBox::warning(this, "Erreur", "ID doit être un nombre positif");
+            ui->LineEdit_rech_adh->clear();
+            ui->LineEdit_rech_adh->setFocus();
+            return;
+        }
+    } else if (critere == "Téléphone") {
+        if (!Adherent::telValide(valeur) && valeur.length() > 0) {
+            QMessageBox::warning(this, "Erreur", "Format de téléphone invalide. Doit commencer par 2, 5 ou 9 et avoir 8 chiffres");
+            ui->LineEdit_rech_adh->clear();
+            ui->LineEdit_rech_adh->setFocus();
+            return;
+        }
+    }
+    QSqlQueryModel* model = A.rechercher(critere, valeur);
+
+    if (model->rowCount() == 0) {
+        QMessageBox::information(this, "Recherche", "Aucun résultat trouvé pour " + critere + ": " + valeur);
+    } else {
+        QMessageBox::information(this, "Recherche", QString::number(model->rowCount()) + " résultat(s) trouvé(s)");
+        ui->tableView->setModel(model);
+    }
+    ui->LineEdit_rech_adh->clear();
+}
+void MainWindow::on_tri_up_clicked()
+{
+    QString critere = ui->comboBox_tri->currentText();
+    QString ordre = "ASC";
+    QSqlQueryModel* model = A.trier(critere, ordre);
+    ui->tableView->setModel(model);
+    QMessageBox::information(this, "Tri", "Données triées par " + critere + " (Croissant)");
+}
+
+void MainWindow::on_tri_down_clicked()
+{
+    QString critere = ui->comboBox_tri->currentText();
+    QString ordre = "DESC";
+    QSqlQueryModel* model = A.trier(critere, ordre);
+    ui->tableView->setModel(model);
+    QMessageBox::information(this, "Tri", "Données triées par " + critere + " (Décroissant)");
+}
+
+//exportation en pdf
+void MainWindow::on_pdf_adherent_btn_clicked()
+{
+    QSqlQueryModel* model = A.afficher();
+    if (model->rowCount() == 0) {
+        QMessageBox::information(this, "Export PDF", "Aucune donnée à exporter");
+        return;
+    }
+
+    QString content;
+    content += "LISTE DES ADHÉRENTS\n";
+    content += "===================\n\n";
+    content += "Exporté le : " + QDate::currentDate().toString("dd/MM/yyyy") + "\n";
+    content += "Nombre d'adhérents : " + QString::number(model->rowCount()) + "\n\n";
+
+    for (int row = 0; row < model->rowCount(); ++row) {
+        content += "▪ Adhérent " + QString::number(row + 1) + ":\n";
+
+        QString nom = model->data(model->index(row, 1)).toString();
+        QString prenom = model->data(model->index(row, 2)).toString();
+        QString daten = model->data(model->index(row, 3)).toString();
+        QString email = model->data(model->index(row, 4)).toString();
+        QString tel = model->data(model->index(row, 5)).toString();
+        QString adr = model->data(model->index(row, 6)).toString();
+
+        content += "   Nom : " + nom + " " + prenom + "\n";
+        content += "   Date de naissance : " + daten + "\n";
+        content += "   Email : " + email + "\n";
+        content += "   Téléphone : " + tel + "\n";
+        content += "   Adresse : " + adr + "\n\n";
+    }
+
+    QString fileName = QFileDialog::getSaveFileName(this,
+                                                    "Exporter en PDF",
+                                                    QDir::homePath() + "/adherents_" + QDate::currentDate().toString("yyyyMMdd") + ".pdf",
+                                                    "Fichiers PDF (*.pdf)");
+
+    if (!fileName.isEmpty()) {
+        QTextDocument document;
+        document.setPlainText(content);
+
+        QPrinter printer(QPrinter::HighResolution);
+        printer.setOutputFormat(QPrinter::PdfFormat);
+        printer.setOutputFileName(fileName);
+
+        document.print(&printer);
+        QMessageBox::information(this, "Succès", "PDF généré avec succès !\n" + fileName);
+    }
+}
+void MainWindow::on_raffraichir_adherent_btn_clicked()
+{
+    QSqlQueryModel* model = A.afficher();
+    ui->tableView->setModel(model);
+    QMessageBox::information(this, "Rafraîchissement", "Liste des adhérents actualisée");
+}
+//destrc
 MainWindow::~MainWindow()
 {
     delete ui;

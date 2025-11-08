@@ -1,4 +1,4 @@
-QT += core gui widgets sql
+QT += core gui sql printsupport widgets
 # CONFIG += c++17
 CONFIG += c++11 console
 
@@ -28,4 +28,3 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     ressource.qrc
 
-RESOURCES +=
