@@ -224,23 +224,36 @@ QSqlQueryModel* Adherent::rechercher(const QString &critere, const QString &vale
     // Déterminer la clause WHERE selon le critère
     if (critere == "ID") {
         whereClause = "ID = " + searchValue;
-    } else if (critere == "Téléphone") {
+    }
+    else if (critere == "Nom") {
+        whereClause = "UPPER(NOM) LIKE UPPER('%" + searchValue + "%')";
+    }
+    else if (critere == "Téléphone") {
         whereClause = "TEL_ADH LIKE '%" + searchValue + "%'";
-    } else if (critere == "Adresse") {
+    }
+    else if (critere == "Adresse") {
         whereClause = "UPPER(ADRESSE_ADH) LIKE UPPER('%" + searchValue + "%')";
-    } else {
-        whereClause = "ID = " + searchValue;
+    }
+    else {
+        whereClause = "ID = " + searchValue; // Défaut
     }
 
     // Construction de la requête SQL
     QString queryStr = "SELECT TO_CHAR(ID) AS ID, NOM, PRENOM, DATE_NAISS, EMAIL, TEL_ADH, ADRESSE_ADH, SEXE FROM ADHERENTS WHERE " + whereClause + " ORDER BY ID ASC";
 
-    qDebug() << "Requête de recherche:" << queryStr;
+    qDebug() << "=== RECHERCHE ===";
+    qDebug() << "Critère:" << critere;
+    qDebug() << "Valeur:" << searchValue;
+    qDebug() << "Requête SQL:" << queryStr;
+
     model->setQuery(queryStr);
+
     if (model->lastError().isValid()) {
-        qDebug() << "Erreur lors de la recherche:" << model->lastError().text();
+        qDebug() << "ERREUR SQL:" << model->lastError().text();
         return model;
     }
+
+    // Définition des en-têtes
     model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
     model->setHeaderData(1, Qt::Horizontal, QObject::tr("Nom"));
     model->setHeaderData(2, Qt::Horizontal, QObject::tr("Prénom"));
@@ -250,7 +263,8 @@ QSqlQueryModel* Adherent::rechercher(const QString &critere, const QString &vale
     model->setHeaderData(6, Qt::Horizontal, QObject::tr("Adresse"));
     model->setHeaderData(7, Qt::Horizontal, QObject::tr("Sexe"));
 
-    qDebug() << "Recherche réussie - Critère:" << critere << "Valeur:" << valeur << "Résultats:" << model->rowCount();
+    qDebug() << "Résultats trouvés:" << model->rowCount();
+    qDebug() << "=== FIN RECHERCHE ===";
 
     return model;
 }

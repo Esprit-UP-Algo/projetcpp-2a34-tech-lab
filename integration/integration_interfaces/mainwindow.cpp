@@ -185,6 +185,7 @@ void MainWindow::on_supprimer_adherent_btn_clicked()
     }
 }
 //les metiers
+
 void MainWindow::on_rech_btn_clicked()
 {
     QString critere = ui->comboBox_recherche->currentText();
@@ -222,6 +223,7 @@ void MainWindow::on_rech_btn_clicked()
     }
     ui->LineEdit_rech_adh->clear();
 }
+
 void MainWindow::on_tri_up_clicked()
 {
     QString critere = ui->comboBox_tri->currentText();
@@ -295,6 +297,36 @@ void MainWindow::on_raffraichir_adherent_btn_clicked()
     ui->tableView->setModel(model);
     QMessageBox::information(this, "Rafraîchissement", "Liste des adhérents actualisée");
 }
+
+void MainWindow::on_employe_btn_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(1);
+}
+
+
+void MainWindow::on_adherents_btn_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+
+void MainWindow::on_formateurs_btn_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(3);
+}
+
+
+void MainWindow::on_ateliers_btn_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(4);
+}
+
+
+void MainWindow::on_equipement_btn_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(5);
+}
+
 //destrc
 MainWindow::~MainWindow()
 {

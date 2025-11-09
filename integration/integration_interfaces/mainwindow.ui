@@ -249,7 +249,7 @@ QPushButton:hover {
    <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
-      <x>250</x>
+      <x>238</x>
       <y>60</y>
       <width>1321</width>
       <height>721</height>
@@ -259,15 +259,15 @@ QPushButton:hover {
      <string notr="true">background-color: rgb(236, 248, 246);</string>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="dashboard"/>
     <widget class="QWidget" name="employe">
      <widget class="QTextEdit" name="textEdit_2">
       <property name="geometry">
        <rect>
-        <x>500</x>
-        <y>20</y>
+        <x>450</x>
+        <y>-20</y>
         <width>381</width>
         <height>141</height>
        </rect>
@@ -756,12 +756,12 @@ li.checked::marker { content: &quot;\2612&quot;; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:28pt; font-weight:700;&quot;&gt;Club&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="supprimer_employe_btn">
+     <widget class="QPushButton" name="rafraichir_employe_btn">
       <property name="geometry">
        <rect>
-        <x>770</x>
-        <y>610</y>
-        <width>361</width>
+        <x>810</x>
+        <y>570</y>
+        <width>191</width>
         <height>31</height>
        </rect>
       </property>
@@ -784,14 +784,14 @@ QPushButton:hover {
 }</string>
       </property>
       <property name="text">
-       <string>Supprimer</string>
+       <string>raffraichir</string>
       </property>
      </widget>
      <widget class="QPushButton" name="fonc_employe_btn">
       <property name="geometry">
        <rect>
-        <x>160</x>
-        <y>80</y>
+        <x>173</x>
+        <y>57</y>
         <width>161</width>
         <height>31</height>
        </rect>
@@ -807,15 +807,15 @@ QPushButton:hover {
 color: rgb(255, 255, 255);</string>
       </property>
       <property name="text">
-       <string>Fonctionalités</string>
+       <string>raffraichir</string>
       </property>
      </widget>
      <widget class="QPushButton" name="pdf_employe_btn">
       <property name="geometry">
        <rect>
-        <x>390</x>
-        <y>610</y>
-        <width>361</width>
+        <x>610</x>
+        <y>570</y>
+        <width>191</width>
         <height>31</height>
        </rect>
       </property>
@@ -838,14 +838,14 @@ QPushButton:hover {
 }</string>
       </property>
       <property name="text">
-       <string>Exporter en PDF </string>
+       <string>exportation pdf</string>
       </property>
      </widget>
      <widget class="QPushButton" name="acc_employe_btn">
       <property name="geometry">
        <rect>
-        <x>0</x>
-        <y>80</y>
+        <x>13</x>
+        <y>57</y>
         <width>151</width>
         <height>31</height>
        </rect>
@@ -861,45 +861,14 @@ QPushButton:hover {
 color: rgb(255, 255, 255);</string>
       </property>
       <property name="text">
-       <string>Accueil</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="trier_employe_btn">
-      <property name="geometry">
-       <rect>
-        <x>720</x>
-        <y>170</y>
-        <width>161</width>
-        <height>29</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>10</pointsize>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QPushButton {
-    background-color: #E6A537;
-	color: rgb(255, 255, 255);
-}
-
-QPushButton:hover {
-    background-color: rgb(127, 170, 121);
-	color:  #E6A537;
-	border-color: rgb(255, 170, 0);
-}</string>
-      </property>
-      <property name="text">
-       <string>Trier</string>
+       <string>raffraichir</string>
       </property>
      </widget>
      <widget class="QComboBox" name="rech_employ_option">
       <property name="geometry">
        <rect>
-        <x>570</x>
-        <y>170</y>
+        <x>700</x>
+        <y>130</y>
         <width>131</width>
         <height>28</height>
        </rect>
@@ -937,8 +906,8 @@ color: rgb(255, 255, 255);</string>
      <widget class="QLabel" name="logo_4">
       <property name="geometry">
        <rect>
-        <x>890</x>
-        <y>0</y>
+        <x>840</x>
+        <y>-40</y>
         <width>201</width>
         <height>161</height>
        </rect>
@@ -956,9 +925,9 @@ color: rgb(255, 255, 255);</string>
      <widget class="QPushButton" name="rech_employe_btn">
       <property name="geometry">
        <rect>
-        <x>400</x>
-        <y>170</y>
-        <width>161</width>
+        <x>580</x>
+        <y>130</y>
+        <width>121</width>
         <height>29</height>
        </rect>
       </property>
@@ -981,14 +950,14 @@ QPushButton:hover {
 }</string>
       </property>
       <property name="text">
-       <string>Rechercher</string>
+       <string>rechercher</string>
       </property>
      </widget>
      <widget class="QComboBox" name="trier_employe_options">
       <property name="geometry">
        <rect>
-        <x>890</x>
-        <y>170</y>
+        <x>830</x>
+        <y>130</y>
         <width>131</width>
         <height>28</height>
        </rect>
@@ -1019,43 +988,11 @@ color: rgb(255, 255, 255);</string>
        </property>
       </item>
      </widget>
-     <widget class="QPushButton" name="tri__employe_decr">
-      <property name="geometry">
-       <rect>
-        <x>1080</x>
-        <y>170</y>
-        <width>41</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">font: 12pt &quot;Segoe UI&quot;;</string>
-      </property>
-      <property name="text">
-       <string>↓</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="tri__employe_cr">
-      <property name="geometry">
-       <rect>
-        <x>1030</x>
-        <y>170</y>
-        <width>41</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">font: 11pt &quot;Segoe UI&quot;;</string>
-      </property>
-      <property name="text">
-       <string>↑</string>
-      </property>
-     </widget>
      <widget class="QGroupBox" name="ajout_2">
       <property name="geometry">
        <rect>
-        <x>0</x>
-        <y>120</y>
+        <x>13</x>
+        <y>97</y>
         <width>321</width>
         <height>541</height>
        </rect>
@@ -2746,7 +2683,7 @@ color: rgb(255, 255, 255);</string>
       <widget class="QPushButton" name="modifier_employe_btn">
        <property name="geometry">
         <rect>
-         <x>10</x>
+         <x>20</x>
          <y>450</y>
          <width>101</width>
          <height>31</height>
@@ -2769,7 +2706,7 @@ color: rgb(255, 255, 255);</string>
       <widget class="QPushButton" name="annuler_employe_btn">
        <property name="geometry">
         <rect>
-         <x>110</x>
+         <x>20</x>
          <y>490</y>
          <width>101</width>
          <height>31</height>
@@ -2792,7 +2729,7 @@ color: rgb(255, 255, 255);</string>
       <widget class="QPushButton" name="ajouter_employe_btn">
        <property name="geometry">
         <rect>
-         <x>210</x>
+         <x>200</x>
          <y>450</y>
          <width>101</width>
          <height>31</height>
@@ -2943,8 +2880,8 @@ color: rgb(255, 255, 255);</string>
      <widget class="QTableWidget" name="tab_atelier_2">
       <property name="geometry">
        <rect>
-        <x>390</x>
-        <y>210</y>
+        <x>340</x>
+        <y>170</y>
         <width>751</width>
         <height>391</height>
        </rect>
@@ -3206,20 +3143,65 @@ color: rgb(255, 255, 255);</string>
        <string notr="true">background-color: rgb(255, 251, 233);</string>
       </property>
      </widget>
+     <widget class="QLineEdit" name="lineEdit">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>130</y>
+        <width>191</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="tri_up_2">
+      <property name="geometry">
+       <rect>
+        <x>960</x>
+        <y>130</y>
+        <width>41</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 11pt &quot;Segoe UI&quot;;</string>
+      </property>
+      <property name="text">
+       <string>↑</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="tri_down_2">
+      <property name="geometry">
+       <rect>
+        <x>1000</x>
+        <y>130</y>
+        <width>41</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 12pt &quot;Segoe UI&quot;;</string>
+      </property>
+      <property name="text">
+       <string>↓</string>
+      </property>
+     </widget>
      <zorder>tab_atelier_2</zorder>
      <zorder>textEdit_2</zorder>
-     <zorder>supprimer_employe_btn</zorder>
+     <zorder>rafraichir_employe_btn</zorder>
      <zorder>fonc_employe_btn</zorder>
      <zorder>pdf_employe_btn</zorder>
      <zorder>acc_employe_btn</zorder>
-     <zorder>trier_employe_btn</zorder>
      <zorder>rech_employ_option</zorder>
      <zorder>logo_4</zorder>
      <zorder>rech_employe_btn</zorder>
      <zorder>trier_employe_options</zorder>
-     <zorder>tri__employe_decr</zorder>
-     <zorder>tri__employe_cr</zorder>
      <zorder>ajout_2</zorder>
+     <zorder>lineEdit</zorder>
+     <zorder>tri_up_2</zorder>
+     <zorder>tri_down_2</zorder>
     </widget>
     <widget class="QWidget" name="adherents">
      <widget class="QTextEdit" name="textEdit">
@@ -4344,7 +4326,7 @@ QPushButton:hover {
        <string>Accueil</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="fonc_btn">
+     <widget class="QPushButton" name="fonc_adherent_btn">
       <property name="geometry">
        <rect>
         <x>170</x>
@@ -4458,7 +4440,7 @@ QPushButton:hover {
      <zorder>ajout</zorder>
      <zorder>raffraichir_adherent_btn</zorder>
      <zorder>acc_btn</zorder>
-     <zorder>fonc_btn</zorder>
+     <zorder>fonc_adherent_btn</zorder>
      <zorder>tri_down</zorder>
      <zorder>tri_up</zorder>
      <zorder>logo_2</zorder>

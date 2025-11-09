@@ -31,6 +31,18 @@ private slots:
     void on_raffraichir_adherent_btn_clicked();
 
     void on_pdf_adherent_btn_clicked();
+        //les interfaces dans stackedwidget
+
+    void on_employe_btn_clicked();
+
+    void on_adherents_btn_clicked();
+
+    void on_formateurs_btn_clicked();
+
+    void on_ateliers_btn_clicked();
+
+    void on_equipement_btn_clicked();
+
 
 private:
     Ui::MainWindow *ui;
