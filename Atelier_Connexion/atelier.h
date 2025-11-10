@@ -2,8 +2,8 @@
 #define ATELIER_H
 
 #include <QString>
-#include <QSqlQuery>
 #include <QSqlQueryModel>
+#include <QMap>
 
 class Atelier {
 private:
@@ -12,37 +12,38 @@ private:
     int capacite;
     QString jour;
     QString horaire;
-    QString duree;
-    QString numero_salle;
+    int duree;
+    int numero_salle;
 
 public:
-    // Constructeurs
     Atelier();
-    Atelier(QString, QString, int, QString, QString, QString, QString);
+    Atelier(QString, QString, int, QString, QString, int, int);
 
-    // Getters
+    // Getters & Setters
     QString getReference() const { return reference; }
     QString getNomAtelier() const { return nom_atelier; }
     int getCapacite() const { return capacite; }
     QString getJour() const { return jour; }
     QString getHoraire() const { return horaire; }
-    QString getDuree() const { return duree; }
-    QString getNumeroSalle() const { return numero_salle; }
+    int getDuree() const { return duree; }
+    int getNumeroSalle() const { return numero_salle; }
 
-    // Setters
     void setReference(QString r) { reference = r; }
     void setNomAtelier(QString n) { nom_atelier = n; }
     void setCapacite(int c) { capacite = c; }
     void setJour(QString j) { jour = j; }
     void setHoraire(QString h) { horaire = h; }
-    void setDuree(QString d) { duree = d; }
-    void setNumeroSalle(QString ns) { numero_salle = ns; }
+    void setDuree(int d) { duree = d; }
+    void setNumeroSalle(int ns) { numero_salle = ns; }
 
-    // CRUD Operations
-    bool ajouter();
-    bool modifier();
-    bool supprimer(QString);
+    // CRUD
+    bool ajouter(QString *errorMsg = nullptr);
     QSqlQueryModel* afficher();
+    bool modifier();
+    bool supprimer(QString ref);
+
+    // STATISTIQUES
+    QMap<QString, int> statistiquesParJour();
 };
 
-#endif
+#endif // ATELIER_H

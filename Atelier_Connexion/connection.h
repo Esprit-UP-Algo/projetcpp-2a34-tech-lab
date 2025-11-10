@@ -1,21 +1,23 @@
+// connection.h
 #ifndef CONNECTION_H
 #define CONNECTION_H
 
-#include <QtSql/QSqlDatabase>
+#include <QSqlDatabase>
+#include <QDebug>
+#include <QSqlError>
 
 class Connection
 {
 public:
-    static Connection* instance();    // Access to the unique instance
-    bool createConnect();    // Method to create the connection
+    static Connection& createInstance();
+    bool createConnect();
 
 private:
-    Connection();    // Private constructor to prevent external instantiation
-    ~Connection();    // Private destructor to control destruction
-    Connection(const Connection&) = delete;    // Delete the copy constructor
-    Connection& operator=(const Connection&) = delete;    // Delete the assignment operator
-
-    static Connection* p_instance; // Pointer to the unique instance
+    QSqlDatabase db;
+    Connection();
+    ~Connection();
+    Connection(const Connection&) = delete;
+    Connection& operator=(const Connection&) = delete;
 };
 
 #endif // CONNECTION_H

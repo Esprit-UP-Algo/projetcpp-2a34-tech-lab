@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1368</width>
-    <height>831</height>
+    <height>847</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -809,7 +809,7 @@
       <string>jour</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="id_">
+    <widget class="QLineEdit" name="lineEdit_ref">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -936,7 +936,7 @@
       <string notr="true">background-color: rgb(255, 255, 255);</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="nom_7">
+    <widget class="QLineEdit" name="LineEdit_nom">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -1064,7 +1064,7 @@
 </string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="email_7">
+    <widget class="QLineEdit" name="LineEdit_j">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -1191,7 +1191,7 @@
       <string notr="true">background-color: rgb(255, 255, 255);</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="prenom_7">
+    <widget class="QLineEdit" name="LineEdit_cap">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -1318,7 +1318,7 @@
       <string notr="true">background-color: rgb(255, 255, 255);</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="tel_10">
+    <widget class="QLineEdit" name="LineEdit_d">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -1445,7 +1445,7 @@
       <string notr="true">background-color: rgb(255, 255, 255);</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="adr_7">
+    <widget class="QLineEdit" name="LineEdit_h">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -1700,7 +1700,7 @@
       <string>numéro de salle</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="tel_11">
+    <widget class="QLineEdit" name="LineEdit_ns">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -1827,7 +1827,7 @@
       <string notr="true">background-color: rgb(255, 255, 255);</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_9">
+    <widget class="QPushButton" name="pushButton_modifier">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -1849,7 +1849,7 @@
       <string>Modifier</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_13">
+    <widget class="QPushButton" name="pushButton_annuler">
      <property name="geometry">
       <rect>
        <x>110</x>
@@ -1871,7 +1871,7 @@
       <string>Annuler</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_16">
+    <widget class="QPushButton" name="pushButton_ajouter">
      <property name="geometry">
       <rect>
        <x>210</x>
@@ -2406,7 +2406,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <string>Exporter en PDF </string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_24">
+   <widget class="QPushButton" name="pushButton_rechercher">
     <property name="geometry">
      <rect>
       <x>560</x>
@@ -2450,7 +2450,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <string>Fonctionalités</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_23">
+   <widget class="QPushButton" name="pushButton_supprimer">
     <property name="geometry">
      <rect>
       <x>940</x>
@@ -2472,7 +2472,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <string>Supprimer</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_7">
+   <widget class="QPushButton" name="pushButton_trier">
     <property name="geometry">
      <rect>
       <x>840</x>
@@ -2495,7 +2495,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <string>Trier</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="pushButton_stat">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -2530,13 +2530,13 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="label_stat">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>670</y>
       <width>1201</width>
-      <height>101</height>
+      <height>161</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -2546,45 +2546,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <property name="text">
      <string/>
     </property>
-   </widget>
-   <widget class="QComboBox" name="comboBox_2">
-    <property name="geometry">
-     <rect>
-      <x>680</x>
-      <y>150</y>
-      <width>141</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>9</pointsize>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(127, 170, 121);</string>
-    </property>
-    <item>
-     <property name="text">
-      <string>nom d'atelier</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>nom d'atelier</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>jour</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>numéro de salle</string>
-     </property>
-    </item>
    </widget>
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
@@ -2730,7 +2691,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      </item>
     </layout>
    </widget>
-   <widget class="QTableWidget" name="tableWidget">
+   <widget class="QTableWidget" name="TableWidget">
     <property name="geometry">
      <rect>
       <x>560</x>
@@ -3048,7 +3009,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <string>Accueil</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBox_3">
+   <widget class="QComboBox" name="comboBox_trier">
     <property name="geometry">
      <rect>
       <x>940</x>
@@ -3086,21 +3047,34 @@ li.checked::marker { content: &quot;\2612&quot;; }
      </property>
     </item>
    </widget>
-   <zorder>label</zorder>
+   <widget class="QLineEdit" name="lineEdit_recherche">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>150</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(127, 170, 121);</string>
+    </property>
+   </widget>
+   <zorder>label_stat</zorder>
    <zorder>groupBox_5</zorder>
    <zorder>textEdit</zorder>
    <zorder>pushButton_10</zorder>
-   <zorder>pushButton_24</zorder>
+   <zorder>pushButton_rechercher</zorder>
    <zorder>pushButton_15</zorder>
-   <zorder>pushButton_23</zorder>
-   <zorder>pushButton_7</zorder>
-   <zorder>pushButton</zorder>
+   <zorder>pushButton_supprimer</zorder>
+   <zorder>pushButton_trier</zorder>
+   <zorder>pushButton_stat</zorder>
    <zorder>label_5</zorder>
-   <zorder>comboBox_2</zorder>
    <zorder>verticalLayoutWidget</zorder>
-   <zorder>tableWidget</zorder>
+   <zorder>TableWidget</zorder>
    <zorder>pushButton_14</zorder>
-   <zorder>comboBox_3</zorder>
+   <zorder>comboBox_trier</zorder>
+   <zorder>lineEdit_recherche</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

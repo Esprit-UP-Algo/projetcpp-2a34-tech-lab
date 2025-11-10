@@ -3,24 +3,16 @@
 #include <QApplication>
 #include <QMessageBox>
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
-
-    // ÉTABLIR LA CONNEXION D'ABORD (comme page 49)
-    Connection* c = Connection::instance();
-    bool test = c->createConnect();
-
-    if (test) {
-        // PUIS INSTANCIER MAINWINDOW (comme page 49)
-        MainWindow SSC;
-        SSC.show();
-        QMessageBox::information(nullptr, QObject::tr("Database is open"),
-                                 QObject::tr("Connection successful.\nClick Cancel to exit."), QMessageBox::Cancel);
+    Connection& c = Connection::createInstance();
+    if (c.createConnect()) {
+        MainWindow w;
+        w.show();
+        QMessageBox::information(nullptr, "Connexion", "Base connectée.");
         return a.exec();
     } else {
-        QMessageBox::critical(nullptr, QObject::tr("Database is not open"),
-                              QObject::tr("Connection failed.\nClick Cancel to exit."), QMessageBox::Cancel);
+        QMessageBox::critical(nullptr, "Erreur", "Connexion échouée.");
         return -1;
     }
 }
