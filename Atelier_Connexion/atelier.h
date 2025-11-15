@@ -2,8 +2,10 @@
 #define ATELIER_H
 
 #include <QString>
+#include <QDate>
 #include <QSqlQueryModel>
 #include <QMap>
+#include <QRegularExpression>
 
 class Atelier {
 private:
@@ -17,9 +19,9 @@ private:
 
 public:
     Atelier();
-    Atelier(QString, QString, int, QString, QString, int, int);
+    Atelier(QString ref, QString nom, int cap, QString j, QString h, int d, int ns);
 
-    // Getters & Setters
+    // Getters
     QString getReference() const { return reference; }
     QString getNomAtelier() const { return nom_atelier; }
     int getCapacite() const { return capacite; }
@@ -28,21 +30,30 @@ public:
     int getDuree() const { return duree; }
     int getNumeroSalle() const { return numero_salle; }
 
-    void setReference(QString r) { reference = r; }
-    void setNomAtelier(QString n) { nom_atelier = n; }
-    void setCapacite(int c) { capacite = c; }
-    void setJour(QString j) { jour = j; }
-    void setHoraire(QString h) { horaire = h; }
-    void setDuree(int d) { duree = d; }
-    void setNumeroSalle(int ns) { numero_salle = ns; }
+    // Setters avec validation (comme ton ami)
+    bool setReference(const QString &ref);
+    bool setNomAtelier(const QString &nom);
+    bool setCapacite(int cap);
+    bool setJour(const QString &j);
+    bool setHoraire(const QString &h);
+    bool setDuree(int d);
+    bool setNumeroSalle(int ns);
+
+    // Validation statique
+    static bool referenceExiste(const QString &ref);
+    static bool referenceValide(const QString &ref);
+    static bool horaireValide(const QString &horaire);
+    static bool jourValide(const QString &jour);
 
     // CRUD
-    bool ajouter(QString *errorMsg = nullptr);
+    bool ajouter();
     QSqlQueryModel* afficher();
     bool modifier();
-    bool supprimer(QString ref);
+    bool supprimer(const QString &ref);
 
-    // STATISTIQUES
+    // Métier
+    QSqlQueryModel* rechercher(const QString &critere, const QString &valeur);
+    QSqlQueryModel* trier(const QString &critere, const QString &ordre);
     QMap<QString, int> statistiquesParJour();
 };
 
