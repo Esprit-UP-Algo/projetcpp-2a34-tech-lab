@@ -1,4 +1,6 @@
-QT += core gui sql printsupport widgets
+QT += core gui sql printsupport charts  widgets
+QT += pdf serialport
+
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -10,6 +12,7 @@ CONFIG += c++17
 
 SOURCES += \
     adherent.cpp \
+    arduino.cpp \
     connection.cpp \
     employe.cpp \
     main.cpp \
@@ -17,6 +20,7 @@ SOURCES += \
 
 HEADERS += \
     adherent.h \
+    arduino.h \
     connection.h \
     employe.h \
     mainwindow.h

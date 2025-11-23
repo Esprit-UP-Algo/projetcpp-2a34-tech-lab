@@ -18,6 +18,8 @@ private:
     QString tel;
     QString adr;
     QString sexe;
+    QString cv_path;
+    QByteArray cvFile;
 
 public:
     Adherent();
@@ -32,6 +34,8 @@ public:
     QString getTel() const;
     QString getAdr() const;
     QString getSexe() const;
+    QByteArray getCvFile() const { return cvFile; }
+
 
     bool setId(int id);
     bool setNom(QString nom);
@@ -41,6 +45,9 @@ public:
     bool setTel(QString tel);
     void setAdr(QString adr);
     void setSexe(QString sexe);
+    void setCvFile(const QByteArray &data) { cvFile = data; }
+
+
 
     static bool emailValide(const QString &email);
     static bool telValide(const QString &tel);
@@ -53,6 +60,8 @@ public:
     QSqlQueryModel* rechercher(const QString &critere, const QString &valeur);
     bool supprimer(int id);
     bool modifier();
+    QMap<QString, int> statistiques(const QString &critere);
+
 };
 
 #endif // ADHERENT_H

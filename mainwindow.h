@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "adherent.h"
 #include "employe.h"
+#include "arduino.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -29,8 +30,14 @@ private slots:
     void on_tri_down_clicked();
     void on_raffraichir_adherent_btn_clicked();
     void on_pdf_adherent_btn_clicked();
+    void on_afficher_pie_clicked();
+    void on_afficher_bar_clicked();
+    void on_btn_upload_cv_clicked();
+    void on_btn_recommander_clicked();
+    void on_arduino_data_received(QString uid);
+    void on_adherent_clicked();
+    void on_fonc_adherent_btn_clicked();
 
-    //   EMPLOYES********
     void on_ajouter_employe_btn_clicked();
     void on_modifier_employe_btn_clicked();
     void on_supprimer_employe_btn_clicked();
@@ -39,22 +46,24 @@ private slots:
     void on_tri_up_employe_btn_clicked();
     void on_tri_down_employe_btn_clicked();
     void on_pdf_employe_btn_clicked();
-
-    // --- NAVIGATION STACKEDWIDGET ---
     void on_employe_clicked();
-    void on_adherent_clicked();
-    /*void on_formateurs_clicked();
-    void on_ateliers_clicked();
-    void on_equipement_clicked();*/
-
 
 private:
     Ui::MainWindow *ui;
 
     Adherent A;
     Employe E;
+    Arduino Ar;
 
     QString getSexeFromRadioButtons();
+    QString extractTextFromPdf(const QString &filePath);
+    QString determinerProfilDepuisCv(const QString &txt);
+    bool trouverAtelierPourProfil(const QString &profil, int &ref,
+                                  QString &nom, QString &horaire);
+    QString dernierCvTexte;
+    QByteArray getCvBlobFromDB(int id);
+
+
 };
 
 #endif // MAINWINDOW_H

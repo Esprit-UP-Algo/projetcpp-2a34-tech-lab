@@ -4,7 +4,7 @@
 #include <QDebug>
 Adherent::Adherent()
     : id(0), nom(""), prenom(""), daten(QDate::currentDate()),
-    email(""), tel(""), adr("") , sexe(""){}
+    email(""), tel(""), adr("") , sexe(""), cv_path("") {}
 Adherent::Adherent(int id, QString nom, QString prenom, QDate daten,
                    QString email, QString tel, QString adr, QString sexe)
 {
@@ -16,6 +16,7 @@ Adherent::Adherent(int id, QString nom, QString prenom, QDate daten,
     this->tel = tel;
     this->adr = adr;
     this->sexe = sexe;
+    this->cv_path = "";
 }
 int Adherent::getId() const { return id; }
 QString Adherent::getNom() const { return nom; }
@@ -221,7 +222,6 @@ QSqlQueryModel* Adherent::rechercher(const QString &critere, const QString &vale
     QString whereClause;
     QString searchValue = valeur.trimmed();
 
-    // Déterminer la clause WHERE selon le critère
     if (critere == "ID") {
         whereClause = "ID = " + searchValue;
     }
@@ -235,10 +235,8 @@ QSqlQueryModel* Adherent::rechercher(const QString &critere, const QString &vale
         whereClause = "UPPER(ADRESSE_ADH) LIKE UPPER('%" + searchValue + "%')";
     }
     else {
-        whereClause = "ID = " + searchValue; // Défaut
+        whereClause = "ID = " + searchValue;
     }
-
-    // Construction de la requête SQL
     QString queryStr = "SELECT TO_CHAR(ID) AS ID, NOM, PRENOM, DATE_NAISS, EMAIL, TEL_ADH, ADRESSE_ADH, SEXE FROM ADHERENTS WHERE " + whereClause + " ORDER BY ID ASC";
 
     qDebug() << "=== RECHERCHE ===";
@@ -276,13 +274,13 @@ QSqlQueryModel* Adherent::trier(const QString &critere, const QString &ordre)
     if (critere == "ID") {
         queryStr = "SELECT TO_CHAR(ID) AS ID, NOM, PRENOM, DATE_NAISS, EMAIL, "
                    "TEL_ADH, ADRESSE_ADH, SEXE FROM ADHERENTS ORDER BY ID " + ordre;
-    } else if (critere == "annee de naissance") {  // CORRIGÉ
+    } else if (critere == "annee de naissance") {
         queryStr = "SELECT TO_CHAR(ID) AS ID, NOM, PRENOM, DATE_NAISS, EMAIL, "
                    "TEL_ADH, ADRESSE_ADH, SEXE FROM ADHERENTS ORDER BY DATE_NAISS " + ordre;
     } else if (critere == "Email") {
         queryStr = "SELECT TO_CHAR(ID) AS ID, NOM, PRENOM, DATE_NAISS, EMAIL, "
                    "TEL_ADH, ADRESSE_ADH, SEXE, SUBSTR(EMAIL, 1, 1) AS PREMIERE_LETTRE FROM ADHERENTS ORDER BY PREMIERE_LETTRE " + ordre;
-    } else if (critere == "Télephone") {  // CORRIGÉ (avec accent aigu)
+    } else if (critere == "Télephone") {
         queryStr = "SELECT TO_CHAR(ID) AS ID, NOM, PRENOM, DATE_NAISS, EMAIL, "
                    "TEL_ADH, ADRESSE_ADH, SEXE, SUBSTR(TEL_ADH, 1, 1) AS PREMIER_CHIFFRE FROM ADHERENTS ORDER BY PREMIER_CHIFFRE " + ordre;
     } else if (critere == "Adresse") {
@@ -301,4 +299,44 @@ QSqlQueryModel* Adherent::trier(const QString &critere, const QString &ordre)
         qDebug() << "Nombre de résultats:" << model->rowCount();
     }
     return model;
+}
+//stat
+QMap<QString, int> Adherent::statistiques(const QString &critere)
+{
+    QMap<QString, int> stats;
+    QSqlQuery query;
+
+    if (critere == "Adresse") {
+        query.prepare("SELECT ADRESSE_ADH, COUNT(*) FROM ADHERENTS GROUP BY ADRESSE_ADH");
+    }
+    else if (critere == "Sexe") {
+        query.prepare("SELECT SEXE, COUNT(*) FROM ADHERENTS GROUP BY SEXE");
+    }
+    else if (critere == "Age") {
+        query.prepare("SELECT FLOOR(MONTHS_BETWEEN(SYSDATE, DATE_NAISS)/12) AS AGE,"
+                      "       COUNT(*) "
+                      "FROM ADHERENTS "
+                      "GROUP BY FLOOR(MONTHS_BETWEEN(SYSDATE, DATE_NAISS)/12) "
+                      "ORDER BY AGE");
+    }
+    else if (critere == "Année") {
+        query.prepare("SELECT EXTRACT(YEAR FROM DATE_NAISS) AS ANNEE, "
+                      "       COUNT(*) "
+                      "FROM ADHERENTS "
+                      "GROUP BY EXTRACT(YEAR FROM DATE_NAISS) "
+                      "ORDER BY ANNEE");
+    }
+
+    if (!query.exec()) {
+        qDebug() << "Erreur statistiques:" << query.lastError().text();
+        return stats;
+    }
+
+    while (query.next()) {
+        QString label = query.value(0).toString();
+        int count = query.value(1).toInt();
+        stats[label] = count;
+    }
+
+    return stats;
 }
