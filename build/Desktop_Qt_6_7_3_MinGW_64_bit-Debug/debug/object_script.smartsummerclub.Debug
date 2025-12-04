@@ -1,0 +1,11 @@
+debug/adherent.o
+debug/arduino.o
+debug/atelier.o
+debug/connection.o
+debug/employe.o
+debug/equipement.o
+debug/formateur.o
+debug/main.o
+debug/mainwindow.o
+debug/moc_arduino.o
+debug/moc_mainwindow.o
