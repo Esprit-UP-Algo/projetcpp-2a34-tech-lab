@@ -1,0 +1,11 @@
+release/adherent.o
+release/arduino.o
+release/atelier.o
+release/connection.o
+release/employe.o
+release/equipement.o
+release/formateur.o
+release/main.o
+release/mainwindow.o
+release/moc_arduino.o
+release/moc_mainwindow.o
