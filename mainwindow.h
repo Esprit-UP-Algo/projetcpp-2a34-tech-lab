@@ -37,7 +37,6 @@ private slots:
     void on_afficher_bar_clicked();
     void on_btn_upload_cv_clicked();
     void on_btn_recommander_clicked();
-    void on_arduino_data_received(QString uid);
     void on_fonc_adherent_btn_clicked();
     void on_ajouter_employe_btn_clicked();
     void on_modifier_employe_btn_clicked();
@@ -91,19 +90,20 @@ private slots:
     void on_fonctionalitbtn_atelier_clicked();
     void on_afficher_pie_atelier_clicked();
     void on_afficher_pie_atelier2_clicked();
-
 private:
     Ui::MainWindow *ui;
-
+    QString serialBuffer;
     Adherent A;
     Employe E;
     Equipement Eq;
     Formateur F;
     Atelier Atmp;
     Arduino Ar;
+    void processUID(const QString &data);
+    void handleDetectedUID(const QString &uid);
+    void insertPresence(int id);
     void initialiserUIAtelier();
     void viderFormulaireAtelier();
-
     QString getSexeFromRadioButtons();
     QString extractTextFromPdf(const QString &filePath);
     QString determinerProfilDepuisCv(const QString &txt);
@@ -112,7 +112,6 @@ private:
     QString dernierCvTexte;
     QByteArray getCvBlobFromDB(int id);
     void afficherAteliers();
-
 
 };
 

@@ -43,6 +43,8 @@
 #include <QPainter>
 #include <QDesktopServices>
 #include <QUrl>
+#include "rfidmanager.h"
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -77,15 +79,15 @@ MainWindow::MainWindow(QWidget *parent)
     QSqlQueryModel* model = A.afficher();
     ui->tableView->setModel(model);
     ui->stackedWidget->setCurrentIndex(0);
-    //arduino
-    int test = Ar.connect_arduino();
+    int result = Ar.connect_arduino();
 
-    if (test == 1)
+    if (result == 1)
         qDebug() << "Arduino connected on port:" << Ar.getPortName();
     else
-        qDebug() << "Arduino connection failed:" << test;
+        qDebug() << "Arduino connection failed:" << result;
     connect(&Ar, &Arduino::dataReceived,
-            this, &MainWindow::on_arduino_data_received);
+            this, &MainWindow::processUID);
+
 
 }
 //************************ADHERENT************************
@@ -755,44 +757,6 @@ void MainWindow::on_fonc_adherent_btn_clicked()
     ui->stackedWidget->setCurrentIndex(1);
     qDebug() << "UPLOAD BUTTON CLICKED!";
 
-}
-void MainWindow::on_arduino_data_received(QString uid)
-{
-    if (uid.isEmpty()) {
-        qDebug() << "Empty UID received.";
-        return;
-    }
-
-    qDebug() << "UID received:" << uid;
-
-    QSqlQuery q;
-    q.prepare("SELECT ID FROM EMPLOYES WHERE RFID_UID = :uid");
-    q.bindValue(":uid", uid);
-
-    if (!q.exec()) {
-        qDebug() << "Query error:" << q.lastError().text();
-        return;
-    }
-
-    if (q.next()) {
-        int idEmp = q.value(0).toInt();
-        qDebug() << "Employee found:" << idEmp;
-
-        QSqlQuery in;
-        in.prepare("INSERT INTO PRESENCE (CIN_EMP, DATE_IN) VALUES (:c, SYSDATE)");
-        in.bindValue(":c", idEmp);
-        in.exec();
-
-        QSqlQuery etat;
-        etat.prepare("UPDATE EMPLOYES SET ETAT='PRESENT' WHERE ID=:id");
-        etat.bindValue(":id", idEmp);
-        etat.exec();
-
-        qDebug() << "ENTRY (IN) saved. Status = PRESENT.";
-    }
-    else {
-        qDebug() << "Unknown badge!";
-    }
 }
 
 MainWindow::~MainWindow()
@@ -2568,3 +2532,62 @@ void MainWindow::on_afficher_pie_atelier2_clicked()
     scene->addWidget(chartView);
     chartView->resize(ui->graphicsView_atelier->size());
 }
+//rfidhela
+void MainWindow::processUID(const QString &data)
+{
+    QString d = data.trimmed();
+    if (d.isEmpty()) return;
+
+    serialBuffer += d;
+
+    if (!serialBuffer.contains("UID:"))
+        return;
+
+    int idx = serialBuffer.indexOf("UID:");
+    QString rest = serialBuffer.mid(idx + 4).trimmed();
+
+    rest.remove(" ");
+    rest.remove("\r");
+    rest.remove("\n");
+
+    if (rest.length() >= 8)
+    {
+        QString uid = rest.left(8).toUpper();
+        serialBuffer.clear();
+        handleDetectedUID(uid);
+    }
+}
+void MainWindow::handleDetectedUID(const QString &uid)
+{
+    QSqlQuery q;
+    q.prepare("SELECT ID, NOM, PRENOM FROM EMPLOYES WHERE TRIM(RFID_UID) = :u");
+    q.bindValue(":u", uid);
+
+    if (!q.exec()) return;
+
+    if (!q.next()) {
+        QMessageBox::warning(this, "Accès refusé", "Badge inconnu");
+        return;
+    }
+
+    int id = q.value("ID").toInt();
+    QString nom = q.value("NOM").toString();
+    QString prenom = q.value("PRENOM").toString();
+
+    QMessageBox::information(this, "Accès autorisé", "Bienvenue " + nom + " " + prenom);
+
+    insertPresence(id);
+}
+void MainWindow::insertPresence(int id)
+{
+    QSqlQuery qry;
+    qry.prepare("INSERT INTO PRESENCE (CIN_EMP, DATE_IN) VALUES (:id, SYSDATE)");
+    qry.bindValue(":id", id);
+    qry.exec();
+
+    QSqlQuery update;
+    update.prepare("UPDATE EMPLOYES SET ETAT = 'PRESENT' WHERE ID = :id");
+    update.bindValue(":id", id);
+    update.exec();
+}
+
